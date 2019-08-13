@@ -1,6 +1,5 @@
-## Lesson-3
-
-Going through our folder structure for the project, breaking out homepage component into smaller components
+Master Project of the Udemy course
+- Complete React Developer in 2019 (w/ Redux, Hooks, GraphQL) by @ZhangMYihua @aneagoie
 
 # How to fork and clone
 
