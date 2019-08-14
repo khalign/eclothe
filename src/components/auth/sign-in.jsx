@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {signInWithGoogle} from '../../firebase/firebase.utils';
+
 import Input from '../form/input';
 import Button from '../form/button';
 
@@ -47,9 +49,8 @@ class SignIn extends React.Component {
                             value={password} onChange={this.handleChange}
                     />
 
-                    <Button type="submit">
-                        Sign in
-                    </Button>
+                    <Button type="submit">Sign in</Button>
+                    <Button onClick={signInWithGoogle}>Sign in with Google</Button>
                 </form>
             </div>
         )
