@@ -1,5 +1,8 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
+
+import * as actions from './redux/actions';
 import {auth, createUser} from './firebase/firebase.utils';
 
 import './App.css';
@@ -24,13 +27,12 @@ class App extends React.Component {
     this.unsebscribeFromAuth = auth.onAuthStateChanged(async user => {
       if (user) {
         const userRef = await createUser(user);
-        userRef.onSnapshot(snapshot => this.setState({
-          user: {
+        userRef.onSnapshot(snapshot => this.props.setUser({
             id: snapshot.id,
           ...snapshot.data()
-          }}
+          }
         ));
-      } else this.setState({user});
+      } else this.props.setUser(user);
     });
   }
 
@@ -41,7 +43,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header user={this.state.user} />
+        <Header />
   
         <Switch>
           <Route exact path='/' component={Home} />
@@ -53,4 +55,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(null, actions) (App);
