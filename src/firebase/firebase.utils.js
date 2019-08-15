@@ -23,7 +23,7 @@ const firebaseConfig = {
       const createdAt = new Date();
 
       try {
-       await userRef.set({displayName, email, createdAt, ...data});
+       await userRef.set({displayName, email, createdAt, ...data });
       } catch (error) {
         console.log('error creating user' + error)
       }
