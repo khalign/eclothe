@@ -3,7 +3,7 @@ import React from 'react';
 import './form.scss';
 
 const Button = ({children, ...props}) => (
-    <button className='custom-button' {...props} >
+    <button className={`${props.google && 'google' } custom-button`} {...props} >
         {children}
     </button>
 )
