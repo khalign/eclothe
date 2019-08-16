@@ -14,6 +14,10 @@
     "reselect": "^4.0.0"
   },
   "devDependencies": {
+    "husky": "^3.0.3",
+    "lint-staged": "^9.2.1",
+    "prettier": "1.18.2",
+    "pretty-quick": "^1.11.1",
     "react-scripts": "3.0.0"
   },
   "scripts": {
@@ -35,6 +39,17 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,json,md}": [
+      "prettier --write",
+      "git add"
     ]
   }
 }
