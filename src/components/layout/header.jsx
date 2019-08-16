@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import * as actions from '../../redux/actions';
-import {auth} from '../../firebase/firebase.utils'
+import {auth} from '../../utils/firebase'
 
 import {ReactComponent as Logo} from '../../assets/crown.svg';
 import CartIcon from '../cart/cart-icon';
@@ -30,13 +30,13 @@ const Header = (props) => (
             }
             <CartIcon onClick={props.toggleCart} />
         </div>
-        {props.toggle_cart && <Cart/>}
+        {props.cartToggled && <Cart/>}
     </div>
 );
 
 const mapStateToProps = ({account, shop}) => ({
     user: account.user,
-    toggle_cart: shop.toggle_cart
+    cartToggled: shop.cartToggled
 })
 
 export default connect(mapStateToProps, actions)(Header);

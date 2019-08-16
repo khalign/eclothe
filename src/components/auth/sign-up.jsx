@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {auth, createUser} from '../../firebase/firebase.utils';
+import {auth, createUser} from '../../utils/firebase';
 
 import Input from '../form/input';
 import Button from '../form/button';

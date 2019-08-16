@@ -1,13 +1,17 @@
-import {TOGGLE_CART} from '../types';
+import {updateCart} from '../../utils/helpers';
+import {TOGGLE_CART, ADD_ITEM} from '../types';
 
 const INITIAL_STATE = {
-    toggle_cart: false
+    cartToggled: false,
+    cartItems: []
 }
 
 export default function (state=INITIAL_STATE, {type, payload}) {
     switch (type) {
         case TOGGLE_CART:
-            return {...state, toggle_cart: !state.toggle_cart}
+            return {...state, cartToggled: !state.cartToggled};
+        case ADD_ITEM:
+            return {...state, cartItems: updateCart(state.cartItems, payload) }
         default:
             return state;
     }

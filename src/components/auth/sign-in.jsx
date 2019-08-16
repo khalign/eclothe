@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {auth, signInWithGoogle} from '../../firebase/firebase.utils';
+import {auth, signInWithGoogle} from '../../utils/firebase';
 
 import Input from '../form/input';
 import Button from '../form/button';
