@@ -5,7 +5,7 @@ import './cart.scss';
 const CartIcon = (props) => (
     <div className='cart-icon' {...props} >
         <BagIcon className='shopping-icon' />
-        <span className='item-count' >0</span>
+        <span className='item-count' >{props.badge}</span>
     </div>
 )
 

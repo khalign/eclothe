@@ -1,7 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
 
+import {selectUser} from '../../redux/selectors/account';
+import { selectCartToggled, selectCartItemsCount} from '../../redux/selectors/shop';
 import * as actions from '../../redux/actions';
 import {auth} from '../../utils/firebase'
 
@@ -28,15 +31,16 @@ const Header = (props) => (
                 :
                 <Link to='/login' className='option'>SIGN IN</Link>
             }
-            <CartIcon onClick={props.toggleCart} />
+            <CartIcon onClick={props.toggleCart} badge={props.itemCount} />
         </div>
         {props.cartToggled && <Cart/>}
     </div>
 );
 
-const mapStateToProps = ({account, shop}) => ({
-    user: account.user,
-    cartToggled: shop.cartToggled
+const mapStateToProps = createStructuredSelector({
+    user: selectUser,
+    cartToggled: selectCartToggled,
+    itemCount: selectCartItemsCount
 })
 
 export default connect(mapStateToProps, actions)(Header);
