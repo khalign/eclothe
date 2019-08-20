@@ -25,7 +25,8 @@ const Shop = ({ collections, match }) => {
         path={`${match.path}`}
         render={() => <Previews collections={collections} />}
       />
-      <Route path={`${match.path}/:category`} component={Category} />} />
+
+      <Route path={`${match.path}/:category`} component={Category} />
     </div>
   );
 };
