@@ -7,6 +7,11 @@ export const selectCartToggled = createSelector(
   shop => shop.cartToggled
 );
 
+export const selectFetching = createSelector(
+  selectShop,
+  shop => shop.fetching
+);
+
 export const selectSections = createSelector(
   selectShop,
   shop => shop.sections
@@ -15,6 +20,11 @@ export const selectSections = createSelector(
 export const selectCollections = createSelector(
   selectShop,
   shop => shop.collections
+);
+
+export const selectLoaded = createSelector(
+  selectCollections,
+  collection => !!collection
 );
 
 export const selectCollectionsAsArray = createSelector(

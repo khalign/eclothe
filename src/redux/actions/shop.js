@@ -1,9 +1,12 @@
+import { firestore, mapCollectionsSnapshot } from "../../utils/firebase";
 import {
   TOGGLE_CART,
   ADD_ITEM,
   REMOVE_ITEM,
   CLEAR_ITEM,
-  SET_COLLECTIONS
+  SET_COLLECTIONS,
+  FETCHING,
+  ERROR
 } from "../types";
 
 export const toggleCart = () => ({
@@ -29,3 +32,18 @@ export const setCollections = collections => ({
   type: SET_COLLECTIONS,
   payload: collections
 });
+
+export const fetchCollections = () => async dispatch => {
+  dispatch({ type: FETCHING });
+
+  try {
+    const ref = firestore.collection("collections");
+
+    const snapshot = await ref.get();
+    const collections = mapCollectionsSnapshot(snapshot);
+
+    dispatch(setCollections(collections));
+  } catch (error) {
+    dispatch({ type: ERROR, payload: error });
+  }
+};

@@ -2,10 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { Route } from "react-router-dom";
-import { firestore, mapCollectionsSnapshot } from "../../utils/firebase";
 
 import * as actions from "../../redux/actions";
-import { selectCollectionsAsArray } from "../../redux/selectors/shop";
+import {
+  selectCollectionsAsArray,
+  selectLoaded
+} from "../../redux/selectors/shop";
 import Collection from "../../components/collections/collection";
 import withSpinner from "../../components/layout/with-spinner";
 
@@ -24,24 +26,12 @@ const PreviewsWithSpinner = withSpinner(Previews);
 const CategoryWithSpinner = withSpinner(Category);
 
 class Shop extends React.Component {
-  state = {
-    loading: true
-  };
-  unsubscribe = null;
-
   componentDidMount() {
-    const ref = firestore.collection("collections");
-
-    ref.onSnapshot(async snapshot => {
-      const collections = mapCollectionsSnapshot(snapshot);
-      this.props.setCollections(collections);
-      this.setState({ loading: false });
-    });
+    this.props.fetchCollections();
   }
 
   render() {
-    const { collections, match } = this.props;
-    const { loading } = this.state;
+    const { collections, match, loaded } = this.props;
 
     return (
       <div>
@@ -49,15 +39,13 @@ class Shop extends React.Component {
           exact
           path={`${match.path}`}
           render={() => (
-            <PreviewsWithSpinner loading={loading} collections={collections} />
+            <PreviewsWithSpinner loading={!loaded} collections={collections} />
           )}
         />
 
         <Route
           path={`${match.path}/:category`}
-          render={props => (
-            <CategoryWithSpinner loading={this.state.loading} {...props} />
-          )}
+          render={props => <CategoryWithSpinner loading={!loaded} {...props} />}
         />
       </div>
     );
@@ -65,7 +53,8 @@ class Shop extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  collections: selectCollectionsAsArray
+  collections: selectCollectionsAsArray,
+  loaded: selectLoaded
 });
 
 export default connect(
