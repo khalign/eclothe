@@ -19,13 +19,14 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsAsArray = createSelector(
   [selectCollections],
-  collections => Object.keys(collections).map(key => collections[key])
+  collections =>
+    collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 export const selectCollection = url =>
   createSelector(
     selectCollections,
-    collections => collections[url]
+    collections => (collections ? collections[url] : null)
   );
 
 export const selectCartItems = createSelector(

@@ -1,11 +1,17 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import ColItem from "./col-item";
 
 import "./collection.scss";
 
-const Collection = ({ title, items, preview }) => (
+const Collection = ({ preview, title, items, route, history, match }) => (
   <div className="collection-preview">
-    <h1 className="title">{title}</h1>
+    <h1
+      className="title"
+      onClick={() => history.push(`${match.path}/${route}`)}
+    >
+      {title}
+    </h1>
     <div className="preview">
       {items
         .filter((item, i) => i < (preview ? 4 : items.length))
@@ -16,4 +22,4 @@ const Collection = ({ title, items, preview }) => (
   </div>
 );
 
-export default Collection;
+export default withRouter(Collection);
