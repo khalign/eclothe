@@ -1,7 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { selectCollection } from "../../redux/selectors/shop";
+
+import { selectCollection, selectLoaded } from "../../redux/selectors/shop";
+import withSpinner from "../../components/layout/with-spinner";
 import ColItem from "../../components/collections/col-item";
+
 import "./shop.scss";
 
 const Category = ({ collection }) => {
@@ -21,7 +24,8 @@ const Category = ({ collection }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  collection: selectCollection(ownProps.match.params.category)(state)
+  collection: selectCollection(ownProps.match.params.category)(state),
+  loading: !selectLoaded(state)
 });
 
-export default connect(mapStateToProps)(Category);
+export default connect(mapStateToProps)(withSpinner(Category));

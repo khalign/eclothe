@@ -1,29 +1,11 @@
 import React from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
-import {
-  selectCollectionsAsArray,
-  selectLoaded
-} from "../../redux/selectors/shop";
-import Collection from "../../components/collections/collection";
-import withSpinner from "../../components/layout/with-spinner";
 
+import PreviewContainer from "./previews";
 import Category from "./category";
-import "./shop.scss";
-
-const Previews = ({ collections }) => (
-  <div className="previews">
-    {collections.map(({ id, ...otherProps }) => (
-      <Collection preview key={id} {...otherProps} />
-    ))}
-  </div>
-);
-
-const PreviewsWithSpinner = withSpinner(Previews);
-const CategoryWithSpinner = withSpinner(Category);
 
 class Shop extends React.Component {
   componentDidMount() {
@@ -31,33 +13,18 @@ class Shop extends React.Component {
   }
 
   render() {
-    const { collections, match, loaded } = this.props;
+    const { match } = this.props;
 
     return (
       <div>
-        <Route
-          exact
-          path={`${match.path}`}
-          render={() => (
-            <PreviewsWithSpinner loading={!loaded} collections={collections} />
-          )}
-        />
-
-        <Route
-          path={`${match.path}/:category`}
-          render={props => <CategoryWithSpinner loading={!loaded} {...props} />}
-        />
+        <Route exact path={`${match.path}`} component={PreviewContainer} />
+        <Route path={`${match.path}/:category`} component={Category} />
       </div>
     );
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  collections: selectCollectionsAsArray,
-  loaded: selectLoaded
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   actions
 )(Shop);
