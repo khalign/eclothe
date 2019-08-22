@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -15,62 +15,46 @@ import Shop from "./pages/shop/shop";
 import Login from "./pages/auth/login";
 import Checkout from "./pages/checkout/checkout";
 
-class App extends React.Component {
-  constructor() {
-    super();
+const App = props => {
+  const { setUser, user } = props;
 
-    this.state = {
-      user: null
-    };
-  }
-
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    const { setUser } = this.props;
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
+  useEffect(() => {
+    let unsubscribe = null;
+    unsubscribe = auth.onAuthStateChanged(async user => {
       if (user) {
         const userRef = await createUser(user);
         userRef.onSnapshot(snapshot =>
-          setUser({
-            id: snapshot.id,
-            ...snapshot.data()
-          })
+          setUser({ id: snapshot.id, ...snapshot.data() })
         );
       } else setUser(user);
     });
 
-    // addCollectionWithDocs('collections', collections.map(({title, items}) => ({title, items})));
-  }
+    return () => {
+      console.log("unsubscribing");
+      unsubscribe();
+    };
+  }, [setUser]);
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
+  return (
+    <div>
+      <Header />
 
-  render() {
-    return (
-      <div>
-        <Header />
-
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/shop" component={Shop} />
-          <Route exact path="/checkout" component={Checkout} />
-          <Route
-            exact
-            path="/login"
-            render={() => (this.props.user ? <Redirect to="/" /> : <Login />)}
-          />
-        </Switch>
-      </div>
-    );
-  }
-}
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/shop" component={Shop} />
+        <Route exact path="/checkout" component={Checkout} />
+        <Route
+          exact
+          path="/login"
+          render={() => (user ? <Redirect to="/" /> : <Login />)}
+        />
+      </Switch>
+    </div>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   user: selectUser
-  // collections: selectCollectionsAsArray
 });
 
 export default connect(

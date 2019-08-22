@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -7,22 +7,20 @@ import * as actions from "../../redux/actions";
 import PreviewContainer from "./previews";
 import Category from "./category";
 
-class Shop extends React.Component {
-  componentDidMount() {
-    this.props.fetchCollections();
-  }
+const Shop = props => {
+  const { match, fetchCollections } = props;
 
-  render() {
-    const { match } = this.props;
+  useEffect(() => {
+    fetchCollections();
+  }, [fetchCollections]);
 
-    return (
-      <div>
-        <Route exact path={`${match.path}`} component={PreviewContainer} />
-        <Route path={`${match.path}/:category`} component={Category} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Route exact path={`${match.path}`} component={PreviewContainer} />
+      <Route path={`${match.path}/:category`} component={Category} />
+    </div>
+  );
+};
 
 export default connect(
   null,
