@@ -7,7 +7,7 @@ import { selectUser } from "./redux/selectors/account";
 import * as actions from "./redux/actions";
 import { auth, createUser } from "./utils/firebase";
 
-import "./App.css";
+import { GlobalStyle } from "./global.styles";
 import Header from "./components/layout/header";
 
 import Home from "./pages/home/home";
@@ -37,6 +37,7 @@ const App = props => {
 
   return (
     <div>
+      <GlobalStyle />
       <Header />
 
       <Switch>

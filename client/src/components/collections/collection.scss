@@ -3,6 +3,10 @@
   flex-direction: column;
   margin-bottom: 30px;
 
+  @media screen and (max-width: 800px) {
+    align-items: center;
+  }
+
   .title {
     font-size: 28px;
     margin-bottom: 25px;
@@ -16,6 +20,12 @@
   .preview {
     display: flex;
     justify-content: space-between;
+
+    @media screen and (max-width: 800px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 15px;
+    }
   }
 }
 
@@ -41,6 +51,13 @@
     position: absolute;
     top: 255px;
     display: none;
+
+    @media screen and (max-width: 800px) {
+      display: block;
+      opacity: 0.9;
+      min-width: unset;
+      padding: 0 10px;
+    }
   }
 
   &:hover {
@@ -51,6 +68,20 @@
     button {
       opacity: 0.7;
       display: flex;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    width: 40vw;
+
+    &:hover {
+      .image {
+        opacity: unset;
+      }
+
+      button {
+        opacity: unset;
+      }
     }
   }
 
