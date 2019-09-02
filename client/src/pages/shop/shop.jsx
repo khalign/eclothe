@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
+import Spinner from "../../components/layout/spinner";
 
-import PreviewContainer from "./previews";
-import Category from "./category";
+const Previews = lazy(() => import("./previews"));
+const Collection = lazy(() => import("./category"));
 
 const Shop = props => {
   const { match, fetchCollections } = props;
@@ -15,10 +16,10 @@ const Shop = props => {
   }, [fetchCollections]);
 
   return (
-    <div>
-      <Route exact path={`${match.path}`} component={PreviewContainer} />
-      <Route path={`${match.path}/:category`} component={Category} />
-    </div>
+    <Suspense fallback={<Spinner />}>
+      <Route exact path={`${match.path}`} component={Previews} />
+      <Route path={`${match.path}/:category`} component={Collection} />
+    </Suspense>
   );
 };
 
